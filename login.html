@@ -1,0 +1,67 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <div
+        style="padding: 10px; border: 1px solid black; padding: 10px 10px 50px 50px; width: 300px; margin: 250px auto;">
+        <form>
+            <h1>Login</h1>
+            <label>Username:</label>
+            <input type="email" id="email" placeholder="Enter email"><br><br>
+            <label>Password:</label>
+            <input type="password" id="password" placeholder="********"><br><br>
+            <input type="button" value="Login" onclick="check()">
+            <a href="./Registration_form.html"><input type="button" value="Signup"></a>
+        </form>
+    </div>
+
+    <script>
+        function check() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var formjson =
+            {
+                "Email": email,
+                "Password": password
+            };
+
+            var localvalues1 = JSON.parse(localStorage.getItem("RegisterForm"));
+            var flag = 0;
+            if (localvalues1 == null) {
+                        flag = 1;
+            }
+
+            if (flag == 1) {
+                alert("Account does not exist, Signup first.");
+            }
+            else {
+
+                var flag1 = 0;
+
+                var localvalues = JSON.parse(localStorage.getItem("RegisterForm"));
+
+                for (let i = 0; i < localvalues.length; i++) {
+                    if (email == localvalues[i].Email && password == localvalues[i].Password) {
+                        localStorage.setItem("login", JSON.stringify(formjson));
+                        flag1 = 1;
+                        break;
+                    }
+                }
+
+                if (flag1 == 1) {
+                    alert("Login successfull");
+                    window.location.href = "./profile.html";
+                }
+                else {
+                    alert("Email and Password are incorrect!");
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

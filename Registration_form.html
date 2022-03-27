@@ -1,0 +1,179 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <div
+        style="padding: 10px; border: 1px solid black; padding: 10px 10px 50px 50px; width: 400px; margin: 150px auto;">
+        <form>
+            <h1>Registration Form</h1>
+            <label>First Name:</label>
+            <input type="text" class="form" id="first_name" onblur="validate_fname()" placeholder="Ramesh"><br><br>
+            <label>Last Name:</label>
+            <input type="text" class="form" id="last_name" onblur="validate_lname()" placeholder="Patil"><br><br>
+            <label>Email:</label>
+            <input type="email" class="form" id="email" placeholder="abc@gmail.com" onblur="validate_email()"><br><br>
+            <label>Password:</label>
+            <input type="password" class="form" id="password" onblur="validate_psw()" placeholder="********"><br><br>
+            <label>Confirm Password:</label>
+            <input type="password" class="form" id="confirm_password" onblur="validate_confirm_psw()"
+                placeholder="********"><br><br>
+            <label>Phone:</label>
+            <input type="tel" class="form" id="phone" placeholder="121-2345-543663" onblur="validate_phone()"><br><br>
+            <label>Age:</label>
+            <input type="number" class="form" id="age" min="18" max="30" placeholder="20"
+                onblur="validate_age()"><br><br>
+            <label>Country:</label>
+            <input type="text" class="form" id="country" onblur="validate_country()" placeholder="IND"><br><br>
+            <input type="submit" value="Submit" onclick="validate_submit()">
+            <input type="reset" value="Reset">
+            <a href="./login.html"><input type="button" value="Login"></a>
+        </form>
+    </div>
+
+    <script>
+        function validate_fname() {
+            var fname = document.getElementById("first_name").value;
+            var pattern = /^[A-Za-z]+$/;
+            if (fname == "") {
+                alert("First name missing");
+            }
+            else if (fname.length < 3 || fname.length > 10) {
+                alert("first name not in range");
+            }
+            else if (!(pattern.test(fname))) {
+                alert("Use only alphabets in first name");
+            }
+        }
+
+        function validate_lname() {
+            var lname = document.getElementById("last_name").value;
+            var pattern = /^[A-Za-z]+$/;
+            if (lname == "") {
+                alert("last name missing");
+            }
+            else if (lname.length < 3 || lname.length > 10) {
+                alert("last name not in range");
+            }
+            else if (!(pattern.test(lname))) {
+                alert("Use only alphabets in last name");
+            }
+        }
+
+        function validate_email() {
+            var email = document.getElementById("email").value;
+
+            if (email == "") {
+                alert("email is missing");
+            }
+        }
+
+        function validate_psw() {
+            var password = document.getElementById("password").value;
+            if (password == "") {
+                alert("Password is missing");
+            }
+            else if (password.length < 8) {
+                alert("Password have atleast 8 characters");
+            }
+        }
+
+        function validate_confirm_psw() {
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            if (confirm_password == "") {
+                alert("Password is missing");
+            }
+            else if (password != confirm_password) {
+                alert("Password is wrong");
+            }
+        }
+
+        function validate_phone() {
+            var phone = document.getElementById("phone").value;
+            var pattern = /^[[0-9]{3}-[0-9]{4}-[0-9]{6}]+$/;
+            if (phone == "") {
+                alert("Phone number is missing");
+            }
+        }
+
+        function validate_age() {
+            var age = document.getElementById("age").value;
+            if (age == "") {
+                alert("Age is missing");
+            }
+        }
+
+        function validate_country() {
+            var country = document.getElementById("country").value;
+            var pattern = /^[A-Z]+$/;
+            if (country == "") {
+                alert("country name missing");
+            }
+            else if (country.length != 3) {
+                alert("country name not in range");
+            }
+            else if (!(pattern.test(country))) {
+                alert("Use only capital letters in country name");
+            }
+        }
+
+        function validate_submit() {
+            var fname = document.getElementById("first_name").value;
+            var lname = document.getElementById("last_name").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            var phone = document.getElementById("phone").value;
+            var age = document.getElementById("age").value;
+            var country = document.getElementById("country").value;
+
+            var formjson =
+            {
+                "firstname": fname,
+                "lastname": lname,
+                "Email": email,
+                "Password": password,
+                "Confirm_password": confirm_password,
+                "Phone": phone,
+                "Age": age,
+                "Country": country
+            };
+
+            var localvalues1 = JSON.parse(localStorage.getItem("RegisterForm"));
+            var flag = 0;
+            if (localvalues1 != null) {
+                for (let i = 0; i < localvalues1.length; i++) {
+                    if (email == localvalues1[i].Email || phone == localvalues1[i].Phone) {
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+
+            if (flag == 1) {
+                alert("Account already exist");
+            }
+            else {
+                if (fname == "" || lname == "" || email == "" || password == "" || confirm_password == "" || phone == "" || age == "" || country == "") {
+                    alert("form is empty, fill all the field");
+                }
+                else {
+                    var localvalues = new Array();
+                    localvalues = JSON.parse(localStorage.getItem("RegisterForm"));
+
+                    if (localvalues) {
+                        localvalues.push(formjson);
+                    } else {
+                        localvalues = [];
+                        localvalues.push(formjson);
+                    }
+                    localStorage.setItem("RegisterForm", JSON.stringify(localvalues));
+                }
+            }
+        } 
+    </script>
+</body>
+
+</html>

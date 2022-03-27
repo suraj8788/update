@@ -1,0 +1,76 @@
+<html>
+
+<head>
+</head>
+
+<body>
+
+    <div
+        style="padding: 10px; border: 1px solid black; padding: 10px 10px 50px 50px; width: 400px; margin: 150px auto;">
+        <form>
+            <h1>Personal Information</h1>
+            <label>First Name:</label>
+            <input type="text" class="form" id="first_name" value=""><br><br>
+            <label>Last Name:</label>
+            <input type="text" class="form" id="last_name"><br><br>
+            <label>Phone:</label>
+            <input type="tel" class="form" id="phone"><br><br>
+            <label>Age:</label>
+            <input type="number" class="form" id="age" min="18" max="30"><br><br>
+            <label>Country:</label>
+            <input type="text" class="form" id="country"><br><br>
+            <input type="submit" value="Update" onclick="update(indexvalue)">
+            <a href="./login.html"><input type="button" value="Logout"></a>
+        </form>
+    </div>
+
+    <script>
+
+        var localvalues = JSON.parse(localStorage.getItem("RegisterForm"));
+        var loginvalues = JSON.parse(localStorage.getItem("login"));
+        var indexvalue;
+        localvalues.map((item, index) => {
+            if (loginvalues.Email == item.Email && loginvalues.Password == item.Password) {
+                indexvalue = index;
+            }
+        });
+        document.getElementById("first_name").value=localvalues[indexvalue].firstname;
+        document.getElementById("last_name").value=localvalues[indexvalue].lastname;
+        document.getElementById("phone").value=localvalues[indexvalue].Phone;
+        document.getElementById("age").value=localvalues[indexvalue].Age;
+        document.getElementById("country").value=localvalues[indexvalue].Country;
+
+        function update(indexvalue) {
+
+            var localvalues = JSON.parse(localStorage.getItem("RegisterForm"));
+            var fname = document.getElementById("first_name").value;
+            var lname = document.getElementById("last_name").value;
+            var email = localvalues[indexvalue].Email;
+            var password = localvalues[indexvalue].Password;
+            var confirm_password = localvalues[indexvalue].Confirm_password;
+            var phone = document.getElementById("phone").value;
+            var age = document.getElementById("age").value;
+            var country = document.getElementById("country").value;
+
+            var formjson =
+            {
+                "firstname": fname,
+                "lastname": lname,
+                "Email": email,
+                "Password": password,
+                "Confirm_password": confirm_password,
+                "Phone": phone,
+                "Age": age,
+                "Country": country
+            };
+
+            localvalues.splice(indexvalue,indexvalue);
+            localvalues.push(formjson);
+            localStorage.setItem("RegisterForm", JSON.stringify(localvalues));
+           
+        }
+
+    </script>
+</body>
+
+</html>
